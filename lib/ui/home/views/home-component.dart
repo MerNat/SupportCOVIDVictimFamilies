@@ -82,12 +82,14 @@ class _HomePage extends State<HomeComponent> {
               model.isCountryFetchDone
                   ? Expanded(
                       child: Align(
-                        child: ListView.builder(
-                            itemCount: model.getCovidSummaryList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return _generateListTile(
-                                  model.getCovidSummaryList[index]);
-                            }),
+                        child: RefreshIndicator(
+                            child: ListView.builder(
+                                itemCount: model.getCovidSummaryList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return _generateListTile(
+                                      model.getCovidSummaryList[index]);
+                                }),
+                            onRefresh: model.fetchCountriesSummary),
                       ),
                     )
                   : CircularProgressIndicator()

@@ -21,8 +21,9 @@ class HomeComponentPresenter extends Model implements _HomeComponentInterface {
   bool _isFiltered = false;
   String _filtrationValue;
   @override
-  void fetchCountriesSummary() async {
+  Future<void> fetchCountriesSummary() async {
     this._isCountryFetchDone = false;
+    notifyListeners();
     this._covid19apiService.fetchCounriesSummary().then((value) {
       final List<dynamic> _covidCountries = value['Countries'];
       _covidCountries.forEach((dynamic data) {
