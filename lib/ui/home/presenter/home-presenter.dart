@@ -23,6 +23,7 @@ class HomeComponentPresenter extends Model implements _HomeComponentInterface {
   @override
   Future<void> fetchCountriesSummary() async {
     this._isCountryFetchDone = false;
+    this._listCountries = [];
     notifyListeners();
     this._covid19apiService.fetchCounriesSummary().then((value) {
       final List<dynamic> _covidCountries = value['Countries'];
