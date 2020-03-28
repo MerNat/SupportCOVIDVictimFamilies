@@ -25,6 +25,9 @@ class _HomePage extends State<HomeComponent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: GlobalWidgets.getDrawer(context),
+      ),
       body: SafeArea(child: ScopedModelDescendant(
           builder: (BuildContext context, Widget child, MainModel model) {
         _model = model;
@@ -34,66 +37,67 @@ class _HomePage extends State<HomeComponent> {
               vertical: GlobalWidgets.getHeight(context) * 0.03),
           child: Column(
             children: <Widget>[
-              Align(
-                alignment: Alignment(1, -1),
-                child: Padding(
-                  padding:
-                      EdgeInsets.all(GlobalWidgets.getWidth(context) * 0.04),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Material(
-                        child: InkWell(
-                          child: Icon(Icons.menu, color: Colors.black),
-                          onTap: () {
-                            print('clicked');
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment(-1, -0.7),
-                child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: GlobalWidgets.getWidth(context) * 0.04),
-                    child: Container(
-                        margin: EdgeInsets.only(
-                            bottom: GlobalWidgets.getHeight(context) * 0.04),
-                        padding: EdgeInsets.only(left: 5.0),
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: TextField(
-                          onChanged: (value) {
-                            model.filterCovidSummaryList(value);
-                            setState(() {});
-                          },
-                          decoration: InputDecoration(
-                              hintText: 'Search',
-                              border: InputBorder.none,
-                              fillColor: Colors.grey.withOpacity(0.5),
-                              prefixIcon:
-                                  Icon(Icons.search, color: Colors.grey)),
-                        ))),
-              ),
-              model.isCountryFetchDone
-                  ? Expanded(
-                      child: Align(
-                        child: RefreshIndicator(
-                            child: ListView.builder(
-                                itemCount: model.getCovidSummaryList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return _generateListTile(
-                                      model.getCovidSummaryList[index]);
-                                }),
-                            onRefresh: model.fetchCountriesSummary),
+              Padding(
+                padding: EdgeInsets.all(GlobalWidgets.getWidth(context) * 0.04),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Material(
+                      child: InkWell(
+                        child: Icon(Icons.menu, color: Colors.black),
+                        onTap: () => Scaffold.of(context).openDrawer(),
                       ),
                     )
-                  : CircularProgressIndicator()
-              //  CircularProgressIndicator()
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: GlobalWidgets.getWidth(context) * 0.04),
+                  child: Container(
+                      margin: EdgeInsets.only(
+                          bottom: GlobalWidgets.getHeight(context) * 0.04),
+                      padding: EdgeInsets.only(left: 5.0),
+                      decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10.0)),
+                      child: TextField(
+                        onChanged: (value) {
+                          model.filterCovidSummaryList(value);
+                          setState(() {});
+                        },
+                        decoration: InputDecoration(
+                            hintText: 'Search',
+                            border: InputBorder.none,
+                            fillColor: Colors.grey.withOpacity(0.5),
+                            prefixIcon: Icon(Icons.search, color: Colors.grey)),
+                      ))),
+              model.isCountryFetchDone
+                  ? Expanded(
+                      child: GestureDetector(
+                        onTap: () =>
+                            FocusScope.of(context).requestFocus(FocusNode()),
+                        child: Align(
+                          child: RefreshIndicator(
+                              child: model.hasFetchError
+                                  ? _generateNoInternet()
+                                  : ListView.builder(
+                                      itemCount:
+                                          model.getCovidSummaryList.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return _generateListTile(
+                                            model.getCovidSummaryList[index]);
+                                      }),
+                              onRefresh: model.fetchCountriesSummary),
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      child: CircularProgressIndicator(),
+                      padding: EdgeInsets.only(
+                          top: GlobalWidgets.getHeight(context) * 0.2),
+                    ),
             ],
           ),
         );
@@ -101,11 +105,38 @@ class _HomePage extends State<HomeComponent> {
     );
   }
 
+  Widget _generateNoInternet() {
+    return ListView(
+      children: <Widget>[
+        Container(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(
+                    top: GlobalWidgets.getHeight(context) * 0.15),
+                child: Icon(
+                  Icons.portable_wifi_off,
+                  color: Colors.grey.withOpacity(1),
+                  size: GlobalWidgets.getWidth(context) * 0.3,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 0),
+                child: Text(
+                  'No Internet',
+                  style: TextStyle(
+                      color: Colors.grey.withOpacity(1),
+                      fontSize: GlobalWidgets.getWidth(context) * 0.06),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _generateListTile(CountryViewModel _countrySummaryModel) {
-    int _totalConfirmed =
-        _countrySummaryModel.totalConfirmed + _countrySummaryModel.newConfirmed;
-    int _totalDeaths =
-        _countrySummaryModel.totalDeaths + _countrySummaryModel.newDeaths;
     return Padding(
       padding: EdgeInsets.symmetric(
           horizontal: GlobalWidgets.getWidth(context) * 0.04),
@@ -129,7 +160,10 @@ class _HomePage extends State<HomeComponent> {
           onTap: () {},
           trailing:
               IconButton(icon: Icon(Icons.arrow_forward), onPressed: () {}),
-          leading: FlutterLogo(size: GlobalWidgets.getWidth(context) * 0.1),
+          // leading: FlutterLogo(size: GlobalWidgets.getWidth(context) * 0.1),
+          leading: CircleAvatar(
+              backgroundColor: Colors.white.withOpacity(0.9),
+              child: Image.network(_countrySummaryModel.countryFlag)),
           title: Text(_countrySummaryModel.countryName),
           isThreeLine: true,
           subtitle: RichText(
@@ -138,13 +172,13 @@ class _HomePage extends State<HomeComponent> {
             children: <TextSpan>[
               TextSpan(text: 'Total Confirmed  '),
               TextSpan(
-                  text: '${_totalConfirmed}',
+                  text: '${_countrySummaryModel.totalConfirmed}',
                   style: TextStyle(
                       color: Colors.red.withOpacity(0.9),
                       fontWeight: FontWeight.w500)),
               TextSpan(text: '\nTotal Death  '),
               TextSpan(
-                  text: '${_totalDeaths}',
+                  text: '${_countrySummaryModel.totalDeaths}',
                   style: TextStyle(
                       color: Colors.red.withOpacity(0.9),
                       fontWeight: FontWeight.w500))

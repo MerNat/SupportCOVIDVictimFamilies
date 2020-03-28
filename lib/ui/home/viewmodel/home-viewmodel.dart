@@ -6,21 +6,19 @@ class HomeViewModel {}
 
 class CountryViewModel {
   String countryName;
-  String slug;
+  String countryFlag;
   int newConfirmed;
   int totalConfirmed;
   int newDeaths;
   int totalDeaths;
-  int newRecovered;
   int totalRecovered;
 
   CountryViewModel(
       {@required this.countryName,
-      @required this.slug,
+      @required this.countryFlag,
       @required this.newConfirmed,
       @required this.totalConfirmed,
       @required this.newDeaths,
       @required this.totalDeaths,
-      @required this.newRecovered,
       @required this.totalRecovered});
 }

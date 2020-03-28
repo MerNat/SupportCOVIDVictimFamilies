@@ -8,6 +8,7 @@ class _HomeComponentInterface {
   void fetchCountriesSummary() {}
   bool get isCountryFetchDone {}
   bool get isFiltered {}
+  bool get hasFetchError {}
   void setCountryFetchDone(bool value) {}
   List<CountryViewModel> get getCovidSummaryList {}
   void filterCovidSummaryList(String filterValue) {}
@@ -19,29 +20,32 @@ class HomeComponentPresenter extends Model implements _HomeComponentInterface {
   Covid19Api _covid19apiService = Covid19Api();
   List<CountryViewModel> _listCountries = [];
   bool _isFiltered = false;
+  bool _hasError = false;
   String _filtrationValue;
   @override
   Future<void> fetchCountriesSummary() async {
     this._isCountryFetchDone = false;
+    this._hasError = false;
     this._listCountries = [];
     notifyListeners();
     this._covid19apiService.fetchCounriesSummary().then((value) {
-      final List<dynamic> _covidCountries = value['Countries'];
+      final List<dynamic> _covidCountries = value;
       _covidCountries.forEach((dynamic data) {
-        if (data['Country'] != "") {
-          CountryViewModel _countrySummary = CountryViewModel(
-              countryName: data['Country'],
-              slug: data['Slug'],
-              newConfirmed: data['NewConfirmed'],
-              newDeaths: data['NewDeaths'],
-              newRecovered: data['NewRecovered'],
-              totalConfirmed: data['TotalConfirmed'],
-              totalDeaths: data['TotalDeaths'],
-              totalRecovered: data['TotalRecovered']);
-          _listCountries.add(_countrySummary);
-        }
+        CountryViewModel _countrySummary = CountryViewModel(
+            countryName: data['country'],
+            countryFlag: data['countryInfo']['flag'],
+            newConfirmed: data['todayCases'],
+            newDeaths: data['todayDeaths'],
+            totalConfirmed: data['cases'],
+            totalDeaths: data['deaths'],
+            totalRecovered: data['recovered']);
+        _listCountries.add(_countrySummary);
       });
       this._isCountryFetchDone = true;
+      notifyListeners();
+    }).catchError((_) {
+      _isCountryFetchDone = true;
+      _hasError = true;
       notifyListeners();
     });
   }
@@ -59,7 +63,10 @@ class HomeComponentPresenter extends Model implements _HomeComponentInterface {
     if (this._filtrationValue != null &&
         this._filtrationValue != '' &&
         this._isFiltered) {
-      return this._listCountries.where((CountryViewModel _countryModel) {
+      return this
+          ._listCountries
+          .reversed
+          .where((CountryViewModel _countryModel) {
         if (_countryModel.countryName
             .toLowerCase()
             .contains(this._filtrationValue.toLowerCase())) {
@@ -68,7 +75,7 @@ class HomeComponentPresenter extends Model implements _HomeComponentInterface {
         return false;
       }).toList();
     }
-    return List.from(this._listCountries);
+    return List.from(this._listCountries.reversed);
   }
 
   @override
@@ -96,4 +103,7 @@ class HomeComponentPresenter extends Model implements _HomeComponentInterface {
 
   @override
   bool get isFiltered => _isFiltered;
+
+  @override
+  bool get hasFetchError => this._hasError;
 }

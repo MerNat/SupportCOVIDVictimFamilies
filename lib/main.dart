@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:support_covid_victims/ui/components/model/main-model.dart';
 import 'package:support_covid_victims/ui/home/views/home-component.dart';
+import 'package:support_covid_victims/ui/news/views/news-component.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,6 +33,7 @@ class _MyApp extends State<MyApp> {
             buttonColor: Colors.teal),
         routes: {
           '/': (BuildContext context) => HomeComponent(),
+          'news': (BuildContext context) => NewsComponent()
         },
       ),
     );
