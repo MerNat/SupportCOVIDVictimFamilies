@@ -7,6 +7,7 @@ class HomeViewModel {}
 class CountryViewModel {
   String countryName;
   String countryFlag;
+  int countryId;
   int newConfirmed;
   int totalConfirmed;
   int newDeaths;
@@ -17,6 +18,7 @@ class CountryViewModel {
       {@required this.countryName,
       @required this.countryFlag,
       @required this.newConfirmed,
+      @required this.countryId,
       @required this.totalConfirmed,
       @required this.newDeaths,
       @required this.totalDeaths,

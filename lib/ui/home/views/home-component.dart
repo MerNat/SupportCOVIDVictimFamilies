@@ -18,6 +18,7 @@ class _HomePage extends State<HomeComponent> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _model.setFilterValue('');
       _model.fetchCountriesSummary();
     });
   }
@@ -80,7 +81,7 @@ class _HomePage extends State<HomeComponent> {
                         child: Align(
                           child: RefreshIndicator(
                               child: model.hasFetchError
-                                  ? _generateNoInternet()
+                                  ? GlobalWidgets.generateNoInternet(context)
                                   : ListView.builder(
                                       itemCount:
                                           model.getCovidSummaryList.length,
@@ -107,37 +108,6 @@ class _HomePage extends State<HomeComponent> {
     );
   }
 
-  Widget _generateNoInternet() {
-    return ListView(
-      children: <Widget>[
-        Container(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                    top: GlobalWidgets.getHeight(context) * 0.15),
-                child: Icon(
-                  Icons.portable_wifi_off,
-                  color: Colors.grey.withOpacity(1),
-                  size: GlobalWidgets.getWidth(context) * 0.3,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 0),
-                child: Text(
-                  'No Internet',
-                  style: TextStyle(
-                      color: Colors.grey.withOpacity(1),
-                      fontSize: GlobalWidgets.getWidth(context) * 0.06),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
-    );
-  }
-
   Widget _generateListTile(CountryViewModel _countrySummaryModel) {
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -160,13 +130,21 @@ class _HomePage extends State<HomeComponent> {
             borderRadius: BorderRadius.circular(10.0)),
         child: ListTile(
           onTap: () {},
-          trailing:
-              IconButton(icon: Icon(Icons.arrow_forward), onPressed: () {}),
-          // leading: FlutterLogo(size: GlobalWidgets.getWidth(context) * 0.1),
-          leading: CircleAvatar(
-              backgroundColor: Colors.white.withOpacity(0.9),
-              child: Image.network(_countrySummaryModel.countryFlag)),
-          title: Text(_countrySummaryModel.countryName),
+          trailing: _countrySummaryModel.countryFlag == null
+              ? null
+              : IconButton(icon: Icon(Icons.arrow_forward), onPressed: () {}),
+          leading: _countrySummaryModel.countryFlag == null
+              ? null
+              : CircleAvatar(
+                  backgroundColor: Colors.white.withOpacity(0.9),
+                  child: Image.network(_countrySummaryModel.countryFlag)),
+          title: Text(
+            _countrySummaryModel.countryName,
+            style: TextStyle(
+                height: 2.0,
+                fontSize: GlobalWidgets.getWidth(context) * 0.04,
+                fontWeight: FontWeight.w600),
+          ),
           isThreeLine: true,
           subtitle: RichText(
               text: TextSpan(
@@ -176,17 +154,47 @@ class _HomePage extends State<HomeComponent> {
               TextSpan(
                   text: '${_countrySummaryModel.totalConfirmed}',
                   style: TextStyle(
+                      height: 1.5,
                       color: Colors.red.withOpacity(0.9),
                       fontWeight: FontWeight.w500)),
               TextSpan(text: '\nTotal Death  '),
               TextSpan(
                   text: '${_countrySummaryModel.totalDeaths}',
                   style: TextStyle(
+                      height: 1.5,
+                      color: Colors.red.withOpacity(0.9),
+                      fontWeight: FontWeight.w500)),
+              _countrySummaryModel.countryFlag == null
+                  ? TextSpan()
+                  : TextSpan(text: '\nNew Confirmed  '),
+              _countrySummaryModel.countryFlag == null
+                  ? TextSpan()
+                  : TextSpan(
+                      text: '${_countrySummaryModel.newConfirmed}',
+                      style: TextStyle(
+                          height: 1.5,
+                          color: Colors.red.withOpacity(0.9),
+                          fontWeight: FontWeight.w500)),
+              _countrySummaryModel.countryFlag == null
+                  ? TextSpan()
+                  : TextSpan(text: '\nNew Deaths  '),
+              _countrySummaryModel.countryFlag == null
+                  ? TextSpan()
+                  : TextSpan(
+                      text: '${_countrySummaryModel.newDeaths}',
+                      style: TextStyle(
+                          height: 1.5,
+                          color: Colors.red.withOpacity(0.9),
+                          fontWeight: FontWeight.w500)),
+              TextSpan(text: '\nTotal Recovered  '),
+              TextSpan(
+                  text: '${_countrySummaryModel.totalRecovered}',
+                  style: TextStyle(
+                      height: 1.5,
                       color: Colors.red.withOpacity(0.9),
                       fontWeight: FontWeight.w500))
             ],
           )),
-          // dense: true,
         ),
       ),
     );

@@ -60,6 +60,7 @@ class _NewsPage extends State<NewsComponent> {
                       child: Text(
                         'Latest News',
                         style: TextStyle(
+                            color: Colors.black.withOpacity(0.8),
                             fontWeight: FontWeight.bold,
                             fontSize: GlobalWidgets.getWidth(context) * 0.06),
                       ),
@@ -75,7 +76,7 @@ class _NewsPage extends State<NewsComponent> {
                         child: Align(
                           child: RefreshIndicator(
                               child: model.getHasNewsError
-                                  ? _generateNoInternet()
+                                  ? GlobalWidgets.generateNoInternet(context)
                                   : ListView.builder(
                                       itemCount: model.getNewsData.length,
                                       itemBuilder:
@@ -182,37 +183,6 @@ class _NewsPage extends State<NewsComponent> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _generateNoInternet() {
-    return ListView(
-      children: <Widget>[
-        Container(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                    top: GlobalWidgets.getHeight(context) * 0.15),
-                child: Icon(
-                  Icons.portable_wifi_off,
-                  color: Colors.grey.withOpacity(1),
-                  size: GlobalWidgets.getWidth(context) * 0.3,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 0),
-                child: Text(
-                  'No Internet',
-                  style: TextStyle(
-                      color: Colors.grey.withOpacity(1),
-                      fontSize: GlobalWidgets.getWidth(context) * 0.06),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
     );
   }
 }

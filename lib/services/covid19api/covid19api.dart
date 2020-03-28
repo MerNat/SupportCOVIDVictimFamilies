@@ -16,6 +16,18 @@ class Covid19Api {
     });
   }
 
+  Future<dynamic> fetchTotalSummary() {
+    return http
+        .get(GlobalURL.AllSummaryUrl)
+        .timeout(Duration(seconds: 5))
+        .then((http.Response response) {
+      return json.decode(response.body);
+    }).catchError((error) {
+      GlobalURL.globalErrorHandling(error);
+      return error;
+    });
+  }
+
   Future<dynamic> fetchNews() {
     return http
         .get(GlobalURL.NewsMediaUrl)

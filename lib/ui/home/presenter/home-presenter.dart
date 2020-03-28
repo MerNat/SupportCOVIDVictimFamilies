@@ -12,6 +12,7 @@ class _HomeComponentInterface {
   void setCountryFetchDone(bool value) {}
   List<CountryViewModel> get getCovidSummaryList {}
   void filterCovidSummaryList(String filterValue) {}
+  void setFilterValue(String value){}
   CountryViewModel getCountrySummary(int index) {}
 }
 
@@ -28,24 +29,40 @@ class HomeComponentPresenter extends Model implements _HomeComponentInterface {
     this._hasError = false;
     this._listCountries = [];
     notifyListeners();
-    this._covid19apiService.fetchCounriesSummary().then((value) {
-      final List<dynamic> _covidCountries = value;
-      _covidCountries.forEach((dynamic data) {
-        CountryViewModel _countrySummary = CountryViewModel(
-            countryName: data['country'],
-            countryFlag: data['countryInfo']['flag'],
-            newConfirmed: data['todayCases'],
-            newDeaths: data['todayDeaths'],
-            totalConfirmed: data['cases'],
-            totalDeaths: data['deaths'],
-            totalRecovered: data['recovered']);
-        _listCountries.add(_countrySummary);
+    this._covid19apiService.fetchTotalSummary().then((totalSummary) {
+      CountryViewModel _totalSummary = CountryViewModel(
+          countryFlag: null,
+          countryName: 'Current Summary',
+          totalConfirmed: totalSummary['cases'],
+          newConfirmed: null,
+          newDeaths: null,
+          totalDeaths: totalSummary['deaths'],
+          totalRecovered: totalSummary['recovered']);
+      this._covid19apiService.fetchCounriesSummary().then((value) {
+        final List<dynamic> _covidCountries = value;
+        _covidCountries.forEach((dynamic data) {
+          CountryViewModel _countrySummary = CountryViewModel(
+              countryName: data['country'],
+              countryFlag: data['countryInfo']['flag'],
+              countryId: data['countryInfo']['_id'],
+              newConfirmed: data['todayCases'],
+              newDeaths: data['todayDeaths'],
+              totalConfirmed: data['cases'],
+              totalDeaths: data['deaths'],
+              totalRecovered: data['recovered']);
+          _listCountries.add(_countrySummary);
+        });
+        _listCountries.add(_totalSummary);
+        this._isCountryFetchDone = true;
+        notifyListeners();
+      }).catchError((_) {
+        _isCountryFetchDone = true;
+        _hasError = true;
+        notifyListeners();
       });
-      this._isCountryFetchDone = true;
-      notifyListeners();
     }).catchError((_) {
-      _isCountryFetchDone = true;
-      _hasError = true;
+      this._isCountryFetchDone = true;
+      this._hasError = true;
       notifyListeners();
     });
   }
@@ -106,4 +123,9 @@ class HomeComponentPresenter extends Model implements _HomeComponentInterface {
 
   @override
   bool get hasFetchError => this._hasError;
+
+  @override
+  void setFilterValue(String value) {
+    this._filtrationValue = value;
+  }
 }

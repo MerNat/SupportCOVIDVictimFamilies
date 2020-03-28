@@ -6,11 +6,7 @@ class GlobalWidgets {
   }
 
   static double getHeight(BuildContext context) {
-    // final Orientation deviceOrientation = MediaQuery.of(context).orientation;
     final double deviceHeight = MediaQuery.of(context).size.height;
-    // final double setWidth = deviceOrientation == Orientation.landscape
-    //     ? deviceWidth * 0.6
-    //     : deviceWidth * 1.0;
     return deviceHeight;
   }
 
@@ -35,7 +31,6 @@ class GlobalWidgets {
               Material(
                 color: Colors.black,
                 child: InkWell(
-                  // splashColor: Colors.yellow,
                   child: ListTile(
                     title: Text(
                       'Show By Country',
@@ -48,13 +43,24 @@ class GlobalWidgets {
               Material(
                 color: Colors.black,
                 child: InkWell(
-                  // Stack: Colors.yellow,
                   child: ListTile(
                     title: Text(
                       'Latest News',
                       style: TextStyle(color: Colors.white.withOpacity(0.8)),
                     ),
                     onTap: () => Navigator.pushNamed(context, 'news'),
+                  ),
+                ),
+              ),
+              Material(
+                color: Colors.black,
+                child: InkWell(
+                  child: ListTile(
+                    title: Text(
+                      'COVID-19 Victims Support',
+                      style: TextStyle(color: Colors.white.withOpacity(0.8)),
+                    ),
+                    onTap: () => {},
                   ),
                 ),
               ),
@@ -81,6 +87,37 @@ class GlobalWidgets {
           )
         ],
       ),
+    );
+  }
+
+  static Widget generateNoInternet(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        Container(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(
+                    top: GlobalWidgets.getHeight(context) * 0.15),
+                child: Icon(
+                  Icons.portable_wifi_off,
+                  color: Colors.grey.withOpacity(1),
+                  size: GlobalWidgets.getWidth(context) * 0.3,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 0),
+                child: Text(
+                  'No Internet',
+                  style: TextStyle(
+                      color: Colors.grey.withOpacity(1),
+                      fontSize: GlobalWidgets.getWidth(context) * 0.06),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 }
