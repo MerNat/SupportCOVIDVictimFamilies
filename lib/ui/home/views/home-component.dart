@@ -94,7 +94,9 @@ class _HomePage extends State<HomeComponent> {
                       ),
                     )
                   : Padding(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                      ),
                       padding: EdgeInsets.only(
                           top: GlobalWidgets.getHeight(context) * 0.2),
                     ),
