@@ -47,7 +47,6 @@ class CovidVictimsPresenter extends Model implements _CovidVictimsInterface {
 
           } else {
             if (data['country_id'] == countryId) {
-              print('im the same');
               CountryViewModel _theCountryModel = await model
                   .getCountryViewModelByCountryId(data['country_id']);
               CovidVictimViewModel _theCovidModel = CovidVictimViewModel(
@@ -64,8 +63,7 @@ class CovidVictimsPresenter extends Model implements _CovidVictimsInterface {
       this._hasCovidVictimsError = false;
       notifyListeners();
       return;
-    }).catchError((err) {
-      print(err);
+    }).catchError((_) {
       this._hasCovidVictimsError = true;
       this._hasCovidVictimsLoaded = true;
       notifyListeners();

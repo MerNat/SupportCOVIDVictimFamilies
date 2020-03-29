@@ -143,6 +143,7 @@ class _CovidVictimsPage extends State<CovidVictimComponent> {
       child: Container(
         padding:
             EdgeInsets.only(bottom: GlobalWidgets.getWidth(context) * 0.02),
+        margin: EdgeInsets.only(bottom: GlobalWidgets.getWidth(context) * 0.04),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(

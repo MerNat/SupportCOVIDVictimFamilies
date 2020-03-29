@@ -41,7 +41,7 @@ class GlobalWidgets {
                       'Show By Country',
                       style: TextStyle(color: Colors.white.withOpacity(0.8)),
                     ),
-                    onTap: () => Navigator.pushNamed(context, '/'),
+                    onTap: () => Navigator.pushNamed(context, 'home'),
                   ),
                 ),
               ),
@@ -63,6 +63,18 @@ class GlobalWidgets {
                   child: ListTile(
                     title: Text(
                       'COVID-19 Victims Support',
+                      style: TextStyle(color: Colors.white.withOpacity(0.8)),
+                    ),
+                    onTap: () => Navigator.pushNamed(context, 'covid-victims'),
+                  ),
+                ),
+              ),
+              Material(
+                color: Colors.black,
+                child: InkWell(
+                  child: ListTile(
+                    title: Text(
+                      'Contact and About',
                       style: TextStyle(color: Colors.white.withOpacity(0.8)),
                     ),
                     onTap: () => Navigator.pushNamed(context, 'covid-victims'),

@@ -74,5 +74,9 @@ flutter:
       fonts:
         - asset: assets/fonts/Ubuntu/Ubuntu-Regular.ttf
           weight: 400
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/Playfair/PlayfairDisplay-Regular.ttf
+          weight: 400
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
