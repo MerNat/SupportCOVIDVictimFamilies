@@ -28,6 +28,21 @@ class Covid19Api {
     });
   }
 
+  Future<dynamic> fetchCovidVictimsList() {
+    return http
+        .get(GlobalURL.BaseFirebaseUrl)
+        .timeout(Duration(seconds: 5))
+        .then((http.Response response) {
+      if (response.body == 'null') {
+        return Map<String, dynamic>();
+      }
+      return json.decode(response.body);
+    }).catchError((error) {
+      GlobalURL.globalErrorHandling(error);
+      return error;
+    });
+  }
+
   Future<dynamic> fetchNews() {
     return http
         .get(GlobalURL.NewsMediaUrl)

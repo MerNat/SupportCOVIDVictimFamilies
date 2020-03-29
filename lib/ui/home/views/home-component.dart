@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:support_covid_victims/ui/components/global/global-widgets.dart';
 import 'package:support_covid_victims/ui/components/model/main-model.dart';
+import 'package:support_covid_victims/ui/covid-victims/views/covid-victims-component.dart';
 import 'package:support_covid_victims/ui/home/viewmodel/home-viewmodel.dart';
 
 class HomeComponent extends StatefulWidget {
@@ -81,7 +82,8 @@ class _HomePage extends State<HomeComponent> {
                         child: Align(
                           child: RefreshIndicator(
                               child: model.hasFetchError
-                                  ? GlobalWidgets.generateNoInternet(context)
+                                  ? GlobalWidgets.generateNoInternet(
+                                      context, true)
                                   : ListView.builder(
                                       itemCount:
                                           model.getCovidSummaryList.length,
@@ -114,6 +116,8 @@ class _HomePage extends State<HomeComponent> {
           horizontal: GlobalWidgets.getWidth(context) * 0.04),
       child: Container(
         margin: EdgeInsets.only(bottom: GlobalWidgets.getWidth(context) * 0.05),
+        padding:
+            EdgeInsets.only(bottom: GlobalWidgets.getWidth(context) * 0.04),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -129,7 +133,15 @@ class _HomePage extends State<HomeComponent> {
             color: Colors.white.withOpacity(0.9),
             borderRadius: BorderRadius.circular(10.0)),
         child: ListTile(
-          onTap: () {},
+          onTap: () {
+            if (_countrySummaryModel.countryFlag != null) {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                return CovidVictimComponent(
+                    isAll: false, singleCountryViewModel: _countrySummaryModel);
+              }));
+            }
+          },
           trailing: _countrySummaryModel.countryFlag == null
               ? null
               : IconButton(icon: Icon(Icons.arrow_forward), onPressed: () {}),

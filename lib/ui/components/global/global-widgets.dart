@@ -24,9 +24,14 @@ class GlobalWidgets {
           Column(
             children: <Widget>[
               AppBar(
-                backgroundColor: Colors.white.withOpacity(0.3),
+                backgroundColor: Colors.white.withOpacity(0.15),
                 automaticallyImplyLeading: false,
-                title: Text('Menu'),
+                title: Text(
+                  'Category Pages',
+                  style: TextStyle(
+                      fontSize: GlobalWidgets.getWidth(context) * 0.04,
+                      color: Colors.white.withOpacity(0.3)),
+                ),
               ),
               Material(
                 color: Colors.black,
@@ -60,7 +65,7 @@ class GlobalWidgets {
                       'COVID-19 Victims Support',
                       style: TextStyle(color: Colors.white.withOpacity(0.8)),
                     ),
-                    onTap: () => {},
+                    onTap: () => Navigator.pushNamed(context, 'covid-victims'),
                   ),
                 ),
               ),
@@ -72,16 +77,13 @@ class GlobalWidgets {
               text: TextSpan(children: [
                 TextSpan(
                     text: 'Made With  ',
-                    style: TextStyle(color: Colors.white.withOpacity(0.4))),
-                WidgetSpan(
-                    child: Icon(
-                  Icons.favorite,
-                  color: Colors.red.withOpacity(0.8),
-                  size: GlobalWidgets.getWidth(context) * 0.04,
-                )),
+                    style: TextStyle(color: Colors.white.withOpacity(0.2))),
+                TextSpan(
+                    text: 'Hope',
+                    style: TextStyle(color: Colors.white.withOpacity(0.2))),
                 TextSpan(
                     text: '  By Meron',
-                    style: TextStyle(color: Colors.white.withOpacity(0.4))),
+                    style: TextStyle(color: Colors.white.withOpacity(0.2))),
               ]),
             ),
           )
@@ -90,7 +92,7 @@ class GlobalWidgets {
     );
   }
 
-  static Widget generateNoInternet(BuildContext context) {
+  static Widget generateNoInternet(BuildContext context, bool isInternet) {
     return ListView(
       children: <Widget>[
         Container(
@@ -100,7 +102,7 @@ class GlobalWidgets {
                 padding: EdgeInsets.only(
                     top: GlobalWidgets.getHeight(context) * 0.15),
                 child: Icon(
-                  Icons.portable_wifi_off,
+                  isInternet ? Icons.portable_wifi_off : Icons.cloud_off,
                   color: Colors.grey.withOpacity(1),
                   size: GlobalWidgets.getWidth(context) * 0.3,
                 ),
@@ -108,7 +110,7 @@ class GlobalWidgets {
               Padding(
                 padding: EdgeInsets.only(top: 0),
                 child: Text(
-                  'No Internet',
+                  isInternet ? 'No Internet' : 'No Data Yet',
                   style: TextStyle(
                       color: Colors.grey.withOpacity(1),
                       fontSize: GlobalWidgets.getWidth(context) * 0.06),

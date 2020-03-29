@@ -76,7 +76,8 @@ class _NewsPage extends State<NewsComponent> {
                         child: Align(
                           child: RefreshIndicator(
                               child: model.getHasNewsError
-                                  ? GlobalWidgets.generateNoInternet(context)
+                                  ? GlobalWidgets.generateNoInternet(
+                                      context, true)
                                   : ListView.builder(
                                       itemCount: model.getNewsData.length,
                                       itemBuilder:
@@ -112,6 +113,8 @@ class _NewsPage extends State<NewsComponent> {
         child: Container(
           margin:
               EdgeInsets.only(bottom: GlobalWidgets.getWidth(context) * 0.05),
+          padding:
+              EdgeInsets.only(bottom: GlobalWidgets.getWidth(context) * 0.04),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
