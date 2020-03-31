@@ -24,83 +24,88 @@ class _NewsPage extends State<NewsComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: GlobalWidgets.getDrawer(context),
-      body: ScopedModelDescendant<MainModel>(
-          builder: (BuildContext context, Widget child, MainModel model) {
-        _model = model;
-        return Container(
-          margin: EdgeInsets.symmetric(
-              horizontal: GlobalWidgets.getHeight(context) * 0.015,
-              vertical: GlobalWidgets.getHeight(context) * 0.05),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(GlobalWidgets.getWidth(context) * 0.04),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Material(
-                      child: InkWell(
-                        child: Icon(Icons.menu, color: Colors.black),
-                        onTap: () => Scaffold.of(context).openDrawer(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: GlobalWidgets.getWidth(context) * 0.045,
-                    vertical: GlobalWidgets.getWidth(context) * 0.04),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Material(
-                      child: Text(
-                        'Latest News',
-                        style: TextStyle(
-                            color: Colors.black.withOpacity(0.8),
-                            fontWeight: FontWeight.bold,
-                            fontSize: GlobalWidgets.getWidth(context) * 0.06),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              model.getIsNewsFetch
-                  ? Expanded(
-                      child: GestureDetector(
-                        onTap: () =>
-                            FocusScope.of(context).requestFocus(FocusNode()),
-                        child: Align(
-                          child: RefreshIndicator(
-                              child: model.getHasNewsError
-                                  ? GlobalWidgets.generateNoInternet(
-                                      context, true)
-                                  : ListView.builder(
-                                      itemCount: model.getNewsData.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return _generateNewsCard(
-                                            model.launchURL,
-                                            model.getNewsData[index]);
-                                      }),
-                              onRefresh: model.fetchNews),
+    return SafeArea(
+      child: Scaffold(
+        drawer: GlobalWidgets.getDrawer(context),
+        body: ScopedModelDescendant<MainModel>(
+            builder: (BuildContext context, Widget child, MainModel model) {
+          _model = model;
+          return Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: GlobalWidgets.getHeight(context) * 0.015,
+                vertical: GlobalWidgets.getHeight(context) * 0.05),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding:
+                      EdgeInsets.all(GlobalWidgets.getWidth(context) * 0.04),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Material(
+                        child: InkWell(
+                          child: Icon(Icons.menu, color: Colors.black),
+                          onTap: () => Scaffold.of(context).openDrawer(),
                         ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: GlobalWidgets.getWidth(context) * 0.045,
+                      vertical: GlobalWidgets.getWidth(context) * 0.04),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Material(
+                        child: Text(
+                          'Latest News',
+                          style: TextStyle(
+                              color: Colors.black.withOpacity(0.8),
+                              fontWeight: FontWeight.bold,
+                              fontSize: GlobalWidgets.getWidth(context) * 0.06),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                model.getIsNewsFetch
+                    ? Expanded(
+                        child: GestureDetector(
+                          onTap: () =>
+                              FocusScope.of(context).requestFocus(FocusNode()),
+                          child: Align(
+                            child: RefreshIndicator(
+                                child: model.getHasNewsError
+                                    ? GlobalWidgets.generateNoInternet(
+                                        context, true)
+                                    : ListView.builder(
+                                        itemCount: model.getNewsData.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return _generateNewsCard(
+                                              model.launchURL,
+                                              model.getNewsData[index]);
+                                        }),
+                                onRefresh: model.fetchNews),
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.black.withOpacity(0.8)),
+                          strokeWidth: 3,
+                        ),
+                        padding: EdgeInsets.only(
+                            top: GlobalWidgets.getHeight(context) * 0.2),
                       ),
-                    )
-                  : Padding(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                      ),
-                      padding: EdgeInsets.only(
-                          top: GlobalWidgets.getHeight(context) * 0.2),
-                    ),
-            ],
-          ),
-        );
-      }),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 
@@ -143,7 +148,7 @@ class _NewsPage extends State<NewsComponent> {
                       heightFactor: 1,
                       child: FadeInImage(
                           image: NetworkImage(_newsInfo.newsUrlToImage),
-                          placeholder: AssetImage('assets/grey.jpg')),
+                          placeholder: AssetImage('assets/img/grey.jpg')),
                     ),
                   ),
                 ),

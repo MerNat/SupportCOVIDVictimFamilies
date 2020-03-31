@@ -34,104 +34,103 @@ class _CovidVictimsPage extends State<CovidVictimComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: GlobalWidgets.getDrawer(context),
-      body: ScopedModelDescendant<MainModel>(
-          builder: (BuildContext context, Widget child, MainModel model) {
-        _model = model;
-        return Container(
-          margin: EdgeInsets.symmetric(
-              horizontal: GlobalWidgets.getHeight(context) * 0.015,
-              vertical: GlobalWidgets.getHeight(context) * 0.05),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(GlobalWidgets.getWidth(context) * 0.04),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Material(
-                      child: InkWell(
-                        child: widget.isAll
-                            ? Icon(Icons.menu, color: Colors.black)
-                            : Icon(Icons.arrow_back, color: Colors.black),
-                        onTap: () {
-                          if (widget.isAll) {
-                            Scaffold.of(context).openDrawer();
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: GlobalWidgets.getWidth(context) * 0.045,
-                    vertical: GlobalWidgets.getWidth(context) * 0.04),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Material(
-                      child: Text(
-                        widget.isAll
-                            ? 'Covid Victims Seeking Support'
-                            : '${widget.singleCountryViewModel.countryName} COVID Victims',
-                        style: TextStyle(
-                            color: Colors.black.withOpacity(0.7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: !widget.isAll
-                                ? GlobalWidgets.getWidth(context) * 0.05
-                                : GlobalWidgets.getWidth(context) * 0.05),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              model.hasCovidVictimsLoaded
-                  ? Expanded(
-                      child: GestureDetector(
-                        onTap: () =>
-                            FocusScope.of(context).requestFocus(FocusNode()),
-                        child: Align(
-                          child: RefreshIndicator(
-                              child: model.hasCovidVictimsError
-                                  ? GlobalWidgets.generateNoInternet(
-                                      context, true)
-                                  : model.getCovidVictimsList.length > 0
-                                      ? ListView.builder(
-                                          itemCount:
-                                              model.getCovidVictimsList.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return _generateListTile(
-                                                model
-                                                    .getCovidVictimsList[index],
-                                                model.launchURL);
-                                          })
-                                      : GlobalWidgets.generateNoInternet(
-                                          context, false),
-                              onRefresh: () => widget.isAll
-                                  ? model.fetchAllCovidVictims(
-                                      model, true, null)
-                                  : model.fetchAllCovidVictims(model, false,
-                                      widget.singleCountryViewModel.countryId)),
+    return SafeArea(
+      child: Scaffold(
+        drawer: GlobalWidgets.getDrawer(context),
+        body: ScopedModelDescendant<MainModel>(
+            builder: (BuildContext context, Widget child, MainModel model) {
+          _model = model;
+          return Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: GlobalWidgets.getHeight(context) * 0.015,
+                vertical: GlobalWidgets.getHeight(context) * 0.05),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: GlobalWidgets.getWidth(context) * 0.02,
+                      vertical: GlobalWidgets.getWidth(context) * 0.04),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Material(
+                        child: InkWell(
+                          child: widget.isAll
+                              ? Icon(Icons.menu, color: Colors.black)
+                              : Icon(Icons.arrow_back, color: Colors.black),
+                          onTap: () {
+                            if (widget.isAll) {
+                              Scaffold.of(context).openDrawer();
+                            } else {
+                              Navigator.pop(context);
+                            }
+                          },
                         ),
+                      )
+                    ],
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    widget.isAll
+                        ? 'COVID Victims Seeking Support'
+                        : '${widget.singleCountryViewModel.countryName} COVID Victims Seeking Support',
+                    style: TextStyle(
+                        color: Colors.black.withOpacity(0.7),
+                        fontWeight: FontWeight.bold,
+                        fontSize: !widget.isAll
+                            ? GlobalWidgets.getWidth(context) * 0.045
+                            : GlobalWidgets.getWidth(context) * 0.045),
+                  ),
+                ),
+                model.hasCovidVictimsLoaded
+                    ? Expanded(
+                        child: GestureDetector(
+                          onTap: () =>
+                              FocusScope.of(context).requestFocus(FocusNode()),
+                          child: Align(
+                            child: RefreshIndicator(
+                                child: model.hasCovidVictimsError
+                                    ? GlobalWidgets.generateNoInternet(
+                                        context, true)
+                                    : model.getCovidVictimsList.length > 0
+                                        ? ListView.builder(
+                                            itemCount: model
+                                                .getCovidVictimsList.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return _generateListTile(
+                                                  model.getCovidVictimsList[
+                                                      index],
+                                                  model.launchURL);
+                                            })
+                                        : GlobalWidgets.generateNoInternet(
+                                            context, false),
+                                onRefresh: () => widget.isAll
+                                    ? model.fetchAllCovidVictims(
+                                        model, true, null)
+                                    : model.fetchAllCovidVictims(
+                                        model,
+                                        false,
+                                        widget
+                                            .singleCountryViewModel.countryId)),
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.black.withOpacity(0.8)),
+                          strokeWidth: 3,
+                        ),
+                        padding: EdgeInsets.only(
+                            top: GlobalWidgets.getHeight(context) * 0.2),
                       ),
-                    )
-                  : Padding(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                      ),
-                      padding: EdgeInsets.only(
-                          top: GlobalWidgets.getHeight(context) * 0.2),
-                    ),
-            ],
-          ),
-        );
-      }),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 

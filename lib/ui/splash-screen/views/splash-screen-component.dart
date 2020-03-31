@@ -23,76 +23,84 @@ class _SplashScreenPage extends State<SplashScreenComponent> {
 
   @override
   Widget build(BuildContext context) {
-    Timer.periodic(Duration(seconds: 5), (timer) {
+    Timer.periodic(Duration(seconds: 4), (timer) {
       Navigator.of(context)
           .pushNamedAndRemoveUntil('home', (Route<dynamic> route) => false);
       timer.cancel();
     });
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            decoration: BoxDecoration(color: Colors.black),
-            child: Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment(0, 0),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.white.withOpacity(0.9),
-                    radius: GlobalWidgets.getWidth(context) * 0.2,
-                    child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: 'Support\n',
-                              style: TextStyle(
-                                  fontFamily: 'PlayfairDisplay',
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      GlobalWidgets.getWidth(context) * 0.05)),
-                          TextSpan(
-                              text: 'COVID-19\n',
-                              style: TextStyle(
-                                  fontFamily: 'PlayfairDisplay',
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      GlobalWidgets.getWidth(context) * 0.05)),
-                          TextSpan(
-                              text: 'Victims',
-                              style: TextStyle(
-                                  fontFamily: 'PlayfairDisplay',
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      GlobalWidgets.getWidth(context) * 0.05))
-                        ])),
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(color: Colors.black),
+              child: Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment(0, 0),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white.withOpacity(0.6),
+                      radius: GlobalWidgets.getWidth(context) * 0.208,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white.withOpacity(0.9),
+                        radius: GlobalWidgets.getWidth(context) * 0.2,
+                        child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: 'Support\n',
+                                  style: TextStyle(
+                                      fontFamily: 'PlayfairDisplay',
+                                      color: Colors.black.withOpacity(0.9),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          GlobalWidgets.getWidth(context) *
+                                              0.05)),
+                              TextSpan(
+                                  text: 'COVID-19\n',
+                                  style: TextStyle(
+                                      fontFamily: 'PlayfairDisplay',
+                                      color: Colors.black.withOpacity(0.9),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          GlobalWidgets.getWidth(context) *
+                                              0.05)),
+                              TextSpan(
+                                  text: 'Victims',
+                                  style: TextStyle(
+                                      fontFamily: 'PlayfairDisplay',
+                                      color: Colors.black.withOpacity(0.9),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          GlobalWidgets.getWidth(context) *
+                                              0.05))
+                            ])),
+                      ),
+                    ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment(0, 0.5),
-                  child: Text(
-                    'One World.    One Fight.',
-                    style: TextStyle(
-                        fontFamily: 'PlayfairDisplay',
-                        color: Colors.white.withOpacity(0.7),
-                        fontSize: GlobalWidgets.getWidth(context) * 0.05),
+                  Align(
+                    alignment: Alignment(0, 0.5),
+                    child: Text(
+                      'One World    One Fight',
+                      style: TextStyle(
+                          fontFamily: 'PlayfairDisplay',
+                          color: Colors.white.withOpacity(0.7),
+                          fontSize: GlobalWidgets.getWidth(context) * 0.05),
+                    ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment(0, 0.8),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+                  Align(
+                    alignment: Alignment(0, 0.8),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 1,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

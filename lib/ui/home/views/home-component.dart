@@ -26,87 +26,93 @@ class _HomePage extends State<HomeComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-        child: GlobalWidgets.getDrawer(context),
-      ),
-      body: SafeArea(child: ScopedModelDescendant(
-          builder: (BuildContext context, Widget child, MainModel model) {
-        _model = model;
-        return Container(
-          margin: EdgeInsets.symmetric(
-              horizontal: GlobalWidgets.getHeight(context) * 0.01,
-              vertical: GlobalWidgets.getHeight(context) * 0.03),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(GlobalWidgets.getWidth(context) * 0.04),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Material(
-                      child: InkWell(
-                        child: Icon(Icons.menu, color: Colors.black),
-                        onTap: () => Scaffold.of(context).openDrawer(),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: GlobalWidgets.getWidth(context) * 0.04),
-                  child: Container(
-                      margin: EdgeInsets.only(
-                          bottom: GlobalWidgets.getHeight(context) * 0.04),
-                      padding: EdgeInsets.only(left: 5.0),
-                      decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(10.0)),
-                      child: TextField(
-                        onChanged: (value) {
-                          model.filterCovidSummaryList(value);
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                            hintText: 'Search',
-                            border: InputBorder.none,
-                            fillColor: Colors.grey.withOpacity(0.5),
-                            prefixIcon: Icon(Icons.search, color: Colors.grey)),
-                      ))),
-              model.isCountryFetchDone
-                  ? Expanded(
-                      child: GestureDetector(
-                        onTap: () =>
-                            FocusScope.of(context).requestFocus(FocusNode()),
-                        child: Align(
-                          child: RefreshIndicator(
-                              child: model.hasFetchError
-                                  ? GlobalWidgets.generateNoInternet(
-                                      context, true)
-                                  : ListView.builder(
-                                      itemCount:
-                                          model.getCovidSummaryList.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return _generateListTile(
-                                            model.getCovidSummaryList[index]);
-                                      }),
-                              onRefresh: model.fetchCountriesSummary),
+    return SafeArea(
+      child: Scaffold(
+        drawer: Drawer(
+          child: GlobalWidgets.getDrawer(context),
+        ),
+        body: SafeArea(child: ScopedModelDescendant(
+            builder: (BuildContext context, Widget child, MainModel model) {
+          _model = model;
+          return Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: GlobalWidgets.getHeight(context) * 0.01,
+                vertical: GlobalWidgets.getHeight(context) * 0.03),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding:
+                      EdgeInsets.all(GlobalWidgets.getWidth(context) * 0.04),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Material(
+                        child: InkWell(
+                          child: Icon(Icons.menu, color: Colors.black),
+                          onTap: () => Scaffold.of(context).openDrawer(),
                         ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: GlobalWidgets.getWidth(context) * 0.04),
+                    child: Container(
+                        margin: EdgeInsets.only(
+                            bottom: GlobalWidgets.getHeight(context) * 0.04),
+                        padding: EdgeInsets.only(left: 5.0),
+                        decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: TextField(
+                          onChanged: (value) {
+                            model.filterCovidSummaryList(value);
+                            setState(() {});
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Search',
+                              border: InputBorder.none,
+                              fillColor: Colors.grey.withOpacity(0.5),
+                              prefixIcon:
+                                  Icon(Icons.search, color: Colors.grey)),
+                        ))),
+                model.isCountryFetchDone
+                    ? Expanded(
+                        child: GestureDetector(
+                          onTap: () =>
+                              FocusScope.of(context).requestFocus(FocusNode()),
+                          child: Align(
+                            child: RefreshIndicator(
+                                child: model.hasFetchError
+                                    ? GlobalWidgets.generateNoInternet(
+                                        context, true)
+                                    : ListView.builder(
+                                        itemCount:
+                                            model.getCovidSummaryList.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return _generateListTile(
+                                              model.getCovidSummaryList[index]);
+                                        }),
+                                onRefresh: model.fetchCountriesSummary),
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.black.withOpacity(0.8)),
+                          strokeWidth: 3,
+                        ),
+                        padding: EdgeInsets.only(
+                            top: GlobalWidgets.getHeight(context) * 0.2),
                       ),
-                    )
-                  : Padding(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                      ),
-                      padding: EdgeInsets.only(
-                          top: GlobalWidgets.getHeight(context) * 0.2),
-                    ),
-            ],
-          ),
-        );
-      })),
+              ],
+            ),
+          );
+        })),
+      ),
     );
   }
 

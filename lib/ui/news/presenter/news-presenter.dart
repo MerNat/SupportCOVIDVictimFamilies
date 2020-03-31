@@ -44,6 +44,7 @@ class NewsPresenter extends Model implements _NewsInterface {
       });
       this._isNewsFetched = true;
       this._hasNewsError = false;
+      this._listNewsData.reversed;
       notifyListeners();
     }).catchError((_) {
       this._isNewsFetched = true;

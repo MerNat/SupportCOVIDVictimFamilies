@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class GlobalWidgets {
   static Widget getSpinner() {
-    return CircularProgressIndicator();
+    return CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.black.withOpacity(0.8)));
   }
 
   static double getHeight(BuildContext context) {
@@ -27,7 +28,7 @@ class GlobalWidgets {
                 backgroundColor: Colors.white.withOpacity(0.15),
                 automaticallyImplyLeading: false,
                 title: Text(
-                  'Category Pages',
+                  'Pages',
                   style: TextStyle(
                       fontSize: GlobalWidgets.getWidth(context) * 0.04,
                       color: Colors.white.withOpacity(0.3)),
@@ -77,7 +78,7 @@ class GlobalWidgets {
                       'Contact and About',
                       style: TextStyle(color: Colors.white.withOpacity(0.8)),
                     ),
-                    onTap: () => Navigator.pushNamed(context, 'covid-victims'),
+                    onTap: () => Navigator.pushNamed(context, 'about'),
                   ),
                 ),
               ),
