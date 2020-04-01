@@ -71,7 +71,7 @@ class _HomePage extends State<HomeComponent> {
                             setState(() {});
                           },
                           decoration: InputDecoration(
-                              hintText: 'Search',
+                              hintText: 'Search Country',
                               border: InputBorder.none,
                               fillColor: Colors.grey.withOpacity(0.5),
                               prefixIcon:

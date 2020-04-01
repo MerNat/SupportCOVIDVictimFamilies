@@ -8,6 +8,6 @@ class GlobalURL {
   static const CountrySummaryUrl = GlobalURL.BaseUrl + 'countries?sort=country';
 
   static void globalErrorHandling(error) {
-    print(error.toString());
+    // print(error.toString());
   }
 }

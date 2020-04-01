@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:support_covid_victims/ui/components/global/global-widgets.dart';
+import 'package:support_covid_victims/ui/components/model/main-model.dart';
 
 class AboutComponent extends StatelessWidget {
   @override
@@ -42,7 +44,7 @@ class AboutComponent extends StatelessWidget {
                         TextSpan(
                             text: 'This application was created so that it may help people ' +
                                 'who seek financial support due to the COVID pandemic outbreak. ' +
-                                'It will be able to share  their fundraising/donation link across the world.\n\n\n\n',
+                                'It will be able to share their fundraising/donation link across the world.\n\n\n\n',
                             style: TextStyle(
                                 fontFamily: 'PlayfairDisplay',
                                 color: Colors.black.withOpacity(0.7),
@@ -67,22 +69,24 @@ class AboutComponent extends StatelessWidget {
                       EdgeInsets.all(GlobalWidgets.getWidth(context) * 0.04),
                   child: Align(
                     alignment: Alignment(-1, 0.5),
-                    child: InkWell(
-                      onTap: () => {},
-                      child: RichText(
-                        // textDirection: TextDirection.rtl,
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: '@MeronHayle',
-                              style: TextStyle(
-                                  fontFamily: 'PlayfairDisplay',
-                                  color: Color.fromRGBO(0, 170, 238, 1),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize:
-                                      GlobalWidgets.getWidth(context) * 0.04))
-                        ]),
-                      ),
-                    ),
+                    child: ScopedModelDescendant<MainModel>(builder:
+                        (BuildContext context, Widget child, MainModel model) {
+                      return InkWell(
+                        onTap: () => model.launchURL('https://twitter.com/MeronHayle'),
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: '@MeronHayle',
+                                style: TextStyle(
+                                    fontFamily: 'PlayfairDisplay',
+                                    color: Color.fromRGBO(0, 170, 238, 1),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:
+                                        GlobalWidgets.getWidth(context) * 0.04))
+                          ]),
+                        ),
+                      );
+                    }),
                   ),
                 ),
                 Padding(

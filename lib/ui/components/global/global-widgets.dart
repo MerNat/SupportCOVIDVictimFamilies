@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class GlobalWidgets {
   static Widget getSpinner() {
     return CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.black.withOpacity(0.8)));
+        valueColor:
+            AlwaysStoppedAnimation<Color>(Colors.black.withOpacity(0.8)));
   }
 
   static double getHeight(BuildContext context) {
@@ -39,6 +40,18 @@ class GlobalWidgets {
                 child: InkWell(
                   child: ListTile(
                     title: Text(
+                      'COVID-19 Victims Support',
+                      style: TextStyle(color: Colors.white.withOpacity(0.8)),
+                    ),
+                    onTap: () => Navigator.pushNamed(context, 'covid-victims'),
+                  ),
+                ),
+              ),
+              Material(
+                color: Colors.black,
+                child: InkWell(
+                  child: ListTile(
+                    title: Text(
                       'Show By Country',
                       style: TextStyle(color: Colors.white.withOpacity(0.8)),
                     ),
@@ -55,18 +68,6 @@ class GlobalWidgets {
                       style: TextStyle(color: Colors.white.withOpacity(0.8)),
                     ),
                     onTap: () => Navigator.pushNamed(context, 'news'),
-                  ),
-                ),
-              ),
-              Material(
-                color: Colors.black,
-                child: InkWell(
-                  child: ListTile(
-                    title: Text(
-                      'COVID-19 Victims Support',
-                      style: TextStyle(color: Colors.white.withOpacity(0.8)),
-                    ),
-                    onTap: () => Navigator.pushNamed(context, 'covid-victims'),
                   ),
                 ),
               ),
