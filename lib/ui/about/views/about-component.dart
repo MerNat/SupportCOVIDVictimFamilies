@@ -53,7 +53,7 @@ class AboutComponent extends StatelessWidget {
                                     GlobalWidgets.getWidth(context) * 0.05)),
                         TextSpan(
                             text:
-                                'Please contact me through twitter to post your fundraising link to the application.',
+                                'You can reach me via twitter to add your fundraising link to the application.',
                             style: TextStyle(
                                 fontFamily: 'PlayfairDisplay',
                                 color: Colors.black.withOpacity(0.7),
