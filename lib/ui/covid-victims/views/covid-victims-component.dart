@@ -90,6 +90,7 @@ class _CovidVictimsPage extends State<CovidVictimComponent> {
                               FocusScope.of(context).requestFocus(FocusNode()),
                           child: Align(
                             child: RefreshIndicator(
+                                color: Colors.black,
                                 child: model.hasCovidVictimsError
                                     ? GlobalWidgets.generateNoInternet(
                                         context, true)

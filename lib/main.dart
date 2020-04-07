@@ -47,6 +47,7 @@ class _MyApp extends State<MyApp> {
         title: 'Support COVID Victims',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+            textSelectionHandleColor: Colors.grey,
             fontFamily: 'Ubuntu',
             primarySwatch: _white,
             primaryTextTheme: TextTheme(title: TextStyle(color: Colors.black)),

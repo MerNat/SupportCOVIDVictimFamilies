@@ -77,6 +77,7 @@ class _NewsPage extends State<NewsComponent> {
                               FocusScope.of(context).requestFocus(FocusNode()),
                           child: Align(
                             child: RefreshIndicator(
+                                color: Colors.black,
                                 child: model.getHasNewsError
                                     ? GlobalWidgets.generateNoInternet(
                                         context, true)

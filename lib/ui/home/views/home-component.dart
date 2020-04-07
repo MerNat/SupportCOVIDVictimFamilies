@@ -49,7 +49,10 @@ class _HomePage extends State<HomeComponent> {
                       Material(
                         child: InkWell(
                           child: Icon(Icons.menu, color: Colors.black),
-                          onTap: () => Scaffold.of(context).openDrawer(),
+                          onTap: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            Scaffold.of(context).openDrawer();
+                          },
                         ),
                       )
                     ],
@@ -84,6 +87,7 @@ class _HomePage extends State<HomeComponent> {
                               FocusScope.of(context).requestFocus(FocusNode()),
                           child: Align(
                             child: RefreshIndicator(
+                                color: Colors.black,
                                 child: model.hasFetchError
                                     ? GlobalWidgets.generateNoInternet(
                                         context, true)
