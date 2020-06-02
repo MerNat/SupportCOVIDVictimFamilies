@@ -1,5 +1,8 @@
 ## Welcome to "Support COVID Victim Families" app!
 
+### Sneak Peak
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fgExdyJmDuQ" frameborder="0" allowfullscreen></iframe>
+
 ### How the flutter app structure is built?
 I followed MVC sturcture with the help of ScopedModel to share model(s) object across the whole app.
 ### How to contribute:
