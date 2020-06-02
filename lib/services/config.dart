@@ -1,5 +1,5 @@
 class GlobalURL {
-  static const BaseUrl = 'https://corona.lmao.ninja/';
+  static const BaseUrl = 'https://disease.sh/v2/';
   static const BaseNewsUrl = 'https://newsapi.org/v2/';
   static const BaseFirebaseUrl = 'https://support-covid-19-victims.firebaseio.com/victims.json';
   static const NewsMediaUrl = GlobalURL.BaseNewsUrl +
